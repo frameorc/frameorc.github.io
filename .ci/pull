@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -x
+
+this=`pwd`
+mkdir $this/doc $this/src $this/examples
+
+temp=`mktemp -d`
+pushd $temp
+
+git clone https://github.com/frameorc/dom.git
+cd dom
+cp -a ./src/{dom,snabb}.js $this/src
+cp -a ./examples/* $this/examples
+cp -a ./README.md $this/doc/dom.md
+cp -a ./LICENSE $this/
+cd ..
+
+git clone https://github.com/frameorc/router.git
+cd router
+cp ./router.js $this/src
+cp ./README.md $this/doc/router.md
+cp -a ./examples/* $this/examples
+cd ..
+
+popd
+rm -rf $temp
+
+git add .
+git commit -m "Published at `date -u +'%F %T'`"
+
