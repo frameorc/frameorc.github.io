@@ -25,6 +25,9 @@ cd ..
 popd
 rm -rf $temp
 
+bun build ./src/dom.js --outfile ./src/dom.min.js --minify
+bun build ./src/router.js --outfile ./src/router.min.js --minify
+
 git add .
 git commit -m "Published at `date -u +'%F %T'`"
 
