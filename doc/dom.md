@@ -1,6 +1,6 @@
 # Library description
 
-This is frameorc, a JavaScript library that helps building user interfaces
+This is frameorc dom, a JavaScript library that helps building user interfaces
 in browsers by manipulating DOM trees.
 
 Brutally simple and efficient, it was created with the goal of endowing
@@ -9,8 +9,8 @@ a single programmer and small teams with formidable power.
 It provides unique, flexible and composable syntax that is *nothing else
 but standard JavaScript*, applied in an intelligent way.
 
-The core is comprised of *13 short functions* in a single file[^0] that
-the author never bothered to minify, gzip and measure the resulting size.
+The library is comprised of *13 short functions* in a single file,
+`20230529.1` minified version of which is 13377 bytes long.
 By the number of lines, this README is longer than the library code.
 
 It *does not require* any build steps, bundlers, transpilers and such tools
@@ -38,9 +38,6 @@ other things:
 - knows when to stop.
 
 
-[^0]: Another file is the only dependency, containing 975 lines of Snabbdom.
-
-
 # In a nutshell
 
 Instead of vague adjectives prone to misinterpretation,
@@ -55,7 +52,7 @@ to
 <div class="main important">Alert</div>
 ```
 
-Here is a fragment of a [keypad component example](examples/keypad.html):
+Here is a fragment of a [keypad component example](/examples/keypad.html):
 
 ```js
 body(
@@ -83,8 +80,8 @@ body(
 );
 ```
 
-For something more complex see how
-[TodoMVC is implemented in frameorc](examples/todomvc/index.js) in just 130 lines.
+For something more complex see how [TodoMVC is implemented in frameorc](/examples/todomvc/)
+in just [130 lines](/examples/todomvc/index.js).
 
 
 # How to start
@@ -116,13 +113,6 @@ and you should see 'Hello, world!' text in the browser.
 
 [^1]: For example, run `python3 -m http.server` in the directory with `index` files;
   Another way: `deno run --allow-net --allow-read https://deno.land/std@0.186.0/http/file_server.ts`
-
-# Components
-
-Some components are to be included into the main frameorc repository.
-See their respective documentation pages:
-
-[router](doc/router.md)
 
 
 # Step-by-step overview
@@ -1023,7 +1013,7 @@ frameorc without your support and encouragement.
 For its virtual DOM layer, frameorc is using [Snabbdom](https://github.com/snabbdom/snabbdom),
 an excellent MIT-licensed library by Simon Friis Vindum et al.
 
-[TodoMVC example](examples/todomvc/index.js) is based on the work of Addy Osmani,
+[TodoMVC example](/examples/todomvc/index.js) is based on the work of Addy Osmani,
 Sindre Sorhus, Pascal Hartig, Stephen Sawchuk and others.
 
 

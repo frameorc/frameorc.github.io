@@ -1,6 +1,6 @@
 # Router module
 
-`src/router.js` contains a reactive component that can be used with or without
+frameorc router contains a reactive component that can be used with or without
 frameorc DOM.
 
 The router module consists of three parts:
