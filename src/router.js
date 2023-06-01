@@ -10,7 +10,7 @@
 export const p2o = s => s ? Object.fromEntries(s.split(';').map(p => p.split('=').map(c => decodeURIComponent(c)))) : ({});
 export const o2p = o => Object.entries(o).map(e => e.map(c => encodeURIComponent(c)).join('=')).join(';');
 // - not human-readable, but parameters can contain complex data structures
-export const decodeArg = s => JSON.parse(atob(s));
+export const decodeArg = s => s ? JSON.parse(atob(s)) : ({});
 export const encodeArg = o => btoa(JSON.stringify(o));
 
 export const hrRoute = f => ({ arg, ...rest }) => f(p2o(arg), rest);
