@@ -1,4 +1,4 @@
-// frameorc dom, edition 20230529.1
+// frameorc dom, edition 20230601
 // MIT License
 // (c) 2015­-2023 Michael Lazarev
 
@@ -24,6 +24,7 @@ export function Builder(effect, tasks=[], names=[]) {
 // VDOM MODEL
 
 import { patch, VNode } from './snabb.js';
+export const Element = VNode;
 
 function append(child, el, ctx) {
   if (child === undefined || child === null || child === false) {}
