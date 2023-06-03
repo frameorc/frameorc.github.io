@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -x
 
+source .env
+
 this=`pwd`
 mkdir $this/doc $this/src $this/examples
 
@@ -20,6 +22,12 @@ cd router
 cp ./router.js $this/src
 cp ./README.md $this/doc/router.md
 cp -a ./examples/* $this/examples
+cd ..
+
+git clone https://github.com/frameorc/flex.git
+cd flex
+cp ./flex.css $this/src
+cp ./index.html $this/doc/flex.html
 cd ..
 
 popd

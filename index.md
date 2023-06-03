@@ -9,3 +9,6 @@ with formidable power.
 [router](doc/router.md): flexible function that dynamically loads
 modules and updates the page or a component based on the current route.
 
+[flex.css](doc/flex.html): a stylesheet for nested flexible blocks. Great for
+building forms and programmatic UIs.
+
