@@ -93,13 +93,13 @@ const listing = (f, from=1, to=-2) => c.P(CODE(
 const DEMO_CELL = Array(3).fill(c.sq);
 
 body(
-  css.maxWidth`75ch`.margin`2em auto`
+  css.maxWidth`75ch`.margin`1em auto`.padding`1em`
      .font`normal 400 14px/1.33 "Ubuntu Mono", monospace`,
   c.Style`
     code {
       background: #ccc; padding: 2px; font-family: "Ubuntu Mono", monospace;
     }
-    pre { padding: 1ch; background: #ccc; }
+    pre { padding: 1ch; background: #ccc; overflow: auto; }
     pre > code { padding: 0; background: unset; }
     .strike {
       text-decoration: line-through;
@@ -158,7 +158,7 @@ body(
     time to even start approaching its due description.`,
   c.P`\
     Having quickly regained my sanity, I concentrated on the outcome. If the
-    above program would have been written, what would its material result be?
+    above program had been written, what would its material result be?
     In a technical sense, it would always be a file which contains the layout,
     which, in any case, must be obtained from the program, and the content,
     developed elsewhere, somehow incorporated into the layout. Would it be much
@@ -258,7 +258,7 @@ body(
   c.P`\
     Since some properties have default values, they can be omitted and the
     resulting CSS will get more compact. In the above listing such styles
-    were struck out.
+    were struck off.
   `,
   c.P`
     Care must also be taken about the special case of stretching by the
