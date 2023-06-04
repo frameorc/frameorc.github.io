@@ -27,6 +27,7 @@ cd ..
 git clone https://github.com/frameorc/flex.git
 cd flex
 cp ./flex.css $this/src
+cp ./flex.css $this/doc/flex.css
 cp ./index.html $this/doc/flex.html
 cd ..
 
