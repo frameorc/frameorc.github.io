@@ -88,7 +88,7 @@ in just [130 lines](/examples/todomvc/index.js).
 
 I trust you can obtain the files that comprise this library in any way that
 is convenient to you. For example, using `git clone`, or by downloading a zip
-archive of a particular branch or tag, or even not downloading anything and 
+archive of a particular branch or tag, or even not downloading anything and
 just hotlinking the content from GitHub.
 
 Let's suppose you have downloaded and put the files into the directory that
@@ -108,7 +108,7 @@ import { body } from '/lib/dom.js';
 body('Hello, world!');
 ```
 
-After setting up your server[^1], visit the URL on which `index.html` is served, 
+After setting up your server[^1], visit the URL on which `index.html` is served,
 and you should see 'Hello, world!' text in the browser.
 
 [^1]: For example, run `python3 -m http.server` in the directory with `index` files;
@@ -120,7 +120,7 @@ and you should see 'Hello, world!' text in the browser.
 ## General approach
 
 The library allows creation of DOM trees with elements, attributes and styles,
-and provides highly efficient and expressive syntax to that end. 
+and provides highly efficient and expressive syntax to that end.
 
 > Instead of
 inventing yet another templating language, the author concentrated his efforts on
@@ -136,6 +136,7 @@ available to be used with frameorc.
 The thirteen functions comprising the library are: `body`, `c`, `attr`, `css`,
 `on`, `Val`, `prop`, `cls`, `key`, `hook`, `Ref`, `attach`, `operator`.
 
+
 ## Static capabilities
 
 This functionality is provided by the `body` setter function, and three
@@ -143,23 +144,26 @@ combinators: `c`, `attr` and `css`. By the term "combinator" within the scope of
 this introductory text a higher-order function is understood such that can
 exhibit abilities, examples of which are provided further.
 
+
 ### `body` function, setting the content of elements
 
 1. Setting the content of an element is just a function call. There is a
-special function `body` that sets the content of the current document's 
+special function `body` that sets the content of the current document's
 `<body>` element.
 
 ```js
 body('Hello')
 ```
 
-2. To set the content, you can call functions with any number of arguments. 
+
+2. To set the content, you can call functions with any number of arguments.
 In this example, `body` is used, but the same stands for `c`, `Val` and `Ref`
 explained further in the text.
 
 ```js
 body('Hello ', 'world')
 ```
+
 
 3. Nested arrays in any order and of any depth will be flattened and set
 as element's children:
@@ -175,7 +179,8 @@ body(
 )
 ```
 
-4. Variables and functions can be used, obviously, as we are just 
+
+4. Variables and functions can be used, obviously, as we are just
 writing code in JavaScript:
 
 ```js
@@ -184,6 +189,7 @@ let b = (v) => [v, a];
 let c = 'world';
 body('Hello ', b('brave '), c);
 ```
+
 
 5. Not just function calls, but functions per se, as well as functions
 that return functions which may return functions and so on can be used *as is*.
@@ -197,6 +203,7 @@ let f = () => 'Hello';
 let g = () => [f, ', ', 'world'];
 body(g);
 ```
+
 
 6. `null`, `undefined` and `false` are skipped, not generating any child content
 in the element. All other data types are converted to strings and added as such.
@@ -213,6 +220,7 @@ body(
   '', // an empty text node
   true)
 ```
+
 
 ### `c` combinator
 
@@ -237,6 +245,7 @@ body(
   c.B('World'))
 ```
 
+
 9. Setting the **classes** of an element is done with a name starting with any
 character other than an uppercase letter:
 
@@ -244,6 +253,7 @@ character other than an uppercase letter:
 body(
   c.important('text'))
 ```
+
 
 10. Tags and classes perform the conversion from *CamelCase* to *kebab-case*
 
@@ -289,6 +299,7 @@ body(
   c.MyElement.withClassOne.andClassTwo.andClassThree('yes, we can do that'))
 ```
 
+
 12. It is obvious that in JavaScript code, tags and classes can be assigned
 dynamically from variables.
 
@@ -298,6 +309,7 @@ let class1 = 'withClassOne';
 let class3 = 'andClassThree';
 body(c[tagName][class1].andCassTwo[class3]('yes'));
 ```
+
 
 13. A construct that defines an element is not an element itself. It is
 a function that will produce the element later. Therefore, it can be
@@ -309,6 +321,7 @@ let elm = c.Li.numbered('Item');
 body(c.Ul(elm, elm, elm));
 ```
 
+
 14. An element construct can have classes added even after it has been
 "called" (a call is just a syntax to add some children):
 
@@ -316,11 +329,12 @@ body(c.Ul(elm, elm, elm));
 body(
   c.Span.important('Really?').additionalClass1.andClass2)
 ```
-  
+
 ```js
 let elm = c.Li.numbered('Item');
 body(c.Ul(elm, elm.selected, elm));
 ```
+
 
 15. An element can have its tag changed at a later time:
 
@@ -338,6 +352,7 @@ body(
     elm));
 ```
 
+
 16. An element can have content added after it has been defined, by using a
 function call syntax. Later in this text it will be demonstrated that not only
 content, but combinators that change the properties of the element can be added
@@ -353,6 +368,7 @@ body(
     elm(' with more content'),
     elm));
 ```
+
 
 17. All the mentioned operations above can be chained and repeated. This is
 useful when we have functions that generate the content that we want to amend
@@ -374,12 +390,14 @@ body(
     'Hello', ', brave', ' and new ', 'world'))
 ```
 
+
 18. If the element does not have any complex content, it may be convenient to
 save typing extra brackets and use the template string syntax
 
 ```js
 body(c`Hello`)
 ```
+
 
 19. The template string syntax works to the full extent and combines with other
 parts of the library, such as value containers, described further in this
@@ -418,6 +436,7 @@ namespace-related intricacies automatically.
 body(c.Svg(c.Rect()))
 ```
 
+
 ### `attr` combinator
 
 21. To assign attributes to an element, use the `attr` combinator as the child
@@ -436,6 +455,7 @@ body(
     )))
 ```
 
+
 22. `attr` allows to chain the attributes
 
 ```js
@@ -445,6 +465,7 @@ body(
       attr.x(0).y(0).height(10).width(10),
     )))
 ```
+
 
 23. `attr` can combine the attributes to which the same value is assigned
 
@@ -456,12 +477,14 @@ body(
     )))
 ```
 
+
 24. All attribute values are converted to strings. If there are several
 arguments in parentheses, they are converted to strings and concatenated.
 
 ```js
 attr.fill('#', '00', 12, '34')
 ```
+
 
 25. Arrays and functions can be used as intuitively expected:
 
@@ -476,17 +499,19 @@ body(
   ));
 ```
 
+
 26. Template strings work as expected:
 
 ```js
 attr.fill`#001234`.stroke`#000000`
 ```
 
+
 ### `css` combinator
 
-27. Inline styles can be assigned in the same way as attributes. 
+27. Inline styles can be assigned in the same way as attributes.
 The combinator is called `css` for brevity, but it affects the `style` property
-of a DOM element. 
+of a DOM element.
 
 Inline styles have the highest priority, **overriding anything assigned by the
 CSS content** from linked stylesheet files and `<style></style>` tags. Depending
@@ -502,6 +527,7 @@ body(
     'Styles can be applied inline'));
 ```
 
+
 28. As we have a programming language at our disposal, we should remember that we
 can use variables and functions, and that it is in the programmer's power to
 apply any kind of aesthetics or lack thereof to the code he is authoring.
@@ -511,6 +537,7 @@ let negative = css.backgroundColor`#222`.color`#ccc`;
 body(
   c(negative, 'Hello. Missed me?'));
 ```
+
 
 29. This follows from the previous examples, but I'd like to highlight one
 important point: it is entirely your choice whether to use inline styles or not.
@@ -549,11 +576,12 @@ with dynamic attributes and structure. These building blocks are simple and
 composable, and they work well regardless of whether the programmer chooses
 a declarative, functional, imperative, or combination approach.
 
+
 ### `on` combinator
 
 30. The event handlers are assigned with `on` combinator. It behaves in the same
 way as `attr` or `css`, except that its arguments are not converted to strings.
-The accepted arguments of `on` combinator are functions. Strings and template 
+The accepted arguments of `on` combinator are functions. Strings and template
 strings are not supported, as they do not make much sense as event handlers[^3].
 
 [^3]: Actually, strings work as event handlers in attributes (`attr` combinator),
@@ -570,8 +598,9 @@ body(
     'Click me'))
 ```
 
-31. Same as every combinator in this library, `on` can appear before, between 
-or after any other children of its parent element, in any place, and can be 
+
+31. Same as every combinator in this library, `on` can appear before, between
+or after any other children of its parent element, in any place, and can be
 repeated any number of times, with different or the same events. The following
 code illustrates that, and has the same effect as the code in the previous example:
 
@@ -590,6 +619,7 @@ body(
     on.dbltap(ow),
     'Click me'));
 ```
+
 
 ### `body.refresh` method
 
@@ -613,6 +643,7 @@ body(
 setInterval(body.refresh, 1000);
 ```
 
+
 33. "*Anywhere*" includes nested element content, arrays and combinators such as
 attributes, inline styles and so on.
 
@@ -628,6 +659,7 @@ body(clock('Current time'));
 setInterval(body.refresh, 1000);
 ```
 
+
 34. `body.refresh()` is ok to call frequently, as it only schedules an update
 at the next cycle. It returns a promise. If you need to continue after the real
 DOM content has been updated, `await` for the call, or use `.then()` to queue
@@ -642,10 +674,32 @@ to the real DOM.
 
 ### `Val` accessor
 
-35. There is a special value container, called `Val`. When a value is being put 
-into it, it will queue a refresh. Don't be afraid to put values into `Val`s
-or to call `body.refresh()` too often. It will not cause, but only schedule
-an update, which will happen once, at the next cycle of the event loop.
+35. There is a special way to create reactive variables in frameorc.
+`Val` constructs such variables. For example,
+
+```js
+let name = Val('Grimfang The Crusher')
+```
+
+The code above constructs a variable `name` that has some contents (here it is
+a name suitable for an orc). If one calls `name()` now, it will return the
+contained data, `'Grimfang The Crusher'`. The contained value can be changed
+by the call with arguments, like this: `name('Rokblorggor The Blade')`.
+
+Note that `name(undefined)` is not like the call `name()`. It will **set** the
+contents to `undefined`.
+
+However, call `name(...[])` or `name.apply(undefined, [])` is the same as
+`name()`, it does not assign anything, only returns the contents (a **getter**
+call).
+
+When a value is being assigned to the reactive variable (**setter** calls, like
+`name('Yambul')`), an UI refresh will be queued. Don't be afraid to assign
+values to such variables or to call `body.refresh()` too often. It will not
+cause an avalanche of immediate state recomputations and redraws. It will only
+*schedule* an update which happens once per cycle of a JavaScript engine event
+loop. Programmatically, the new values will be available immediately, but they
+will appear on the screen at the right time.
 
 ```js
 let name = Val('World'), count = Val(0);
@@ -658,6 +712,7 @@ body(
   c('Number of clicks: ', count),
   c(c.Button(on.click(() => count(count() + 1)), 'Click me')));
 ```
+
 
 36. Vals can contain not only primitive values, but anything: arrays, functions,
 and even combinators. That makes them a perfect building block for components.
@@ -690,6 +745,7 @@ function Status() {
 body(Status());
 ```
 
+
 37. You also can pass Vals around to create logical links between different
 components operating on the same data.
 
@@ -715,12 +771,12 @@ more detailed description of `prop` combinator.
 
 ### `prop` combinator
 
-38. Sometimes, `attr` is not dynamic enough. The most common case is for input 
+38. Sometimes, `attr` is not dynamic enough. The most common case is for input
 elements, where `value` *attribute* only specifies the initial value of the field,
 and the current value is set and retrieved from the `value` *property*.
 
 To manage properties, frameorc has `prop` combinator. It behaves like `attr`
-combinator, but it does not automatically convert its arguments to strings. 
+combinator, but it does not automatically convert its arguments to strings.
 The arguments are assigned to element properties as they were passed to this
 combinator. If several arguments are supplied, they are assigned as an array.
 
@@ -742,6 +798,7 @@ body(
   c.Button(on.click(() => v('')), 'Clear'));
 ```
 
+
 ### `cls` combinator
 
 39. Classes can be set by `cls` combinator:
@@ -758,7 +815,8 @@ body(c(cls.important.red.bold, 'Important!'))
 body(c(cls.important().red.bold(), 'Important!'))
 ```
 
-40. `cls` combinator can take arguments. If any of the arguments is `true`, or 
+
+40. `cls` combinator can take arguments. If any of the arguments is `true`, or
 is the value that JavaScript coerces to boolean `true`, the preceding *chain of
 classes* will be added to the DOM element.
 
@@ -770,6 +828,7 @@ body(
     cls.important(2 === 2).green.old(3 < 2).red.bold(2 !== 3),
     'Important!'))
 ```
+
 
 41. If there are any functions in arguments, they will be called to obtain the
 value of their result. If a function call returns a function, that function
@@ -787,6 +846,7 @@ body(
     'Important!'));
 ```
 
+
 42. If all of the arguments are false, the class will be unset,
 if set previously.
 
@@ -797,6 +857,7 @@ body(c(
   'Important!'))
 ```
 
+
 43. Classes can be set and unset multiple times. The last (un)setting wins.
 
 ```js
@@ -806,6 +867,7 @@ body(c(
   cls.red(2 !== 3), // .red is set again, last setting, affects the result
   'Important!'))
 ```
+
 
 ### `key` combinator
 
@@ -890,6 +952,7 @@ r(3);
 console.log(obj); // { a: 3, b: 2 }
 ```
 
+
 ### Reactive handlers
 
 There are two special methods of `Val` and `Ref` accessors: `.on(f)` and
@@ -915,7 +978,7 @@ status(c.Span.red('Alert'));
 ```
 
 The setter function can be used to set the contents of the element.
-`body` setter, from the description of which this document starts, 
+`body` setter, from the description of which this document starts,
 is nothing else than a result of `attach(document.body)`.
 
 This function is useful in case one decides to have multiple VDOM roots.
@@ -923,7 +986,7 @@ Updates of such roots, triggered by calling the setter function, or by calling
 its `refresh` property, will be happening independently of each other.
 
 ```js
-status('Current time is: ', () => Date.toISOString()); 
+status('Current time is: ', () => Date.toISOString());
 setInterval(status.refresh, 1000);
 ```
 
@@ -1015,6 +1078,4 @@ an excellent MIT-licensed library by Simon Friis Vindum et al.
 
 [TodoMVC example](/examples/todomvc/index.js) is based on the work of Addy Osmani,
 Sindre Sorhus, Pascal Hartig, Stephen Sawchuk and others.
-
-
 
