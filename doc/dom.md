@@ -961,11 +961,20 @@ after an assignment has been made via an accessor. Multiple functions can be
 added as such handlers by sequentially calling the `.on` method:
 `v.on(f1).on(f2).on(f3)`.
 
-In fact, every `Val` and `Ref` since their creation already have one assignment
+The handler receives its arguments as `(next, ...args)`. Then it can call the
+`next` function before, after or in the middle of its own code. It has liberty
+not to call the next function at all, or call it multiple times. It can pass
+`args` to the `next` unchanged, or modify them as necessary. The normal call is
+just `next(...args)`. It is the handler's author's responsibility to catch the
+errors that may arise during the call of the `next` function, and to decide
+whether to `await` on that call or not.
+
+Every `Val` and `Ref` since their creation already have one assignment
 event handler installed: `refresh`. In default `Val` and `Ref` it is
 `body.refresh`, but in special cases described in the following section covering
 the `attach` function, it will be a `refresh` method from the corresponding
-VDOM tree setter.
+VDOM tree setter. Refresh handler is written in such way that the refresh will
+happen after any other handlers registered for the reactive value.
 
 
 ### `attach` function

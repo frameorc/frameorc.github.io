@@ -31,11 +31,23 @@ cp ./flex.css $this/doc/flex.css
 cp ./index.html $this/doc/flex.html
 cd ..
 
+git clone https://github.com/frameorc/state.git
+cd state
+cp ./state.js $this/src
+cp ./state.fs.js $this/src
+cp ./state.ls.js $this/src
+cp ./README.md $this/doc/state.md
+sed s%./state.ls.js%../src/state.ls.min.js% ./demo.html > $this/examples/state-demo.html
+cd ..
+
+
 popd
 rm -rf $temp
 
 bun build ./src/dom.js --outfile ./src/dom.min.js --minify
 bun build ./src/router.js --outfile ./src/router.min.js --minify
+bun build ./src/state.ls.js --outfile ./src/state.ls.min.js --minify
+bun build ./src/state.fs.js --outfile ./src/state.fs.min.js --minify
 
 git add .
 git commit -m "Published at `date -u +'%F %T'`"

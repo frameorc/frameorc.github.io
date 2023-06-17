@@ -1,4 +1,4 @@
-// frameorc dom, edition 20230601
+// frameorc dom, edition 20230617
 // MIT License
 // (c) 2015­-2023 Michael Lazarev
 
@@ -150,35 +150,27 @@ export const attr = Builder((tasks, el, ctx) => {
 
 // REACTIVE VALUES
 
-export async function chainTry(functions, ...args) {
-  for (let f of functions) {
-    try {
-      await f(...args);
-    } catch(e) {
-      console.error(e);
-    }
+function chain() {
+  let handlers = [], f;
+  function makeNext(pos = 0, hs = handlers) {
+    return (...args) => hs[pos]?.(makeNext(pos+1, hs), ...args);
   }
-}
-
-export function wrapTrigger(f = x=>x) {
-  const handlers = new Set();
-  const accessor = f((...args) => chainTry(handlers, ...args));
-  accessor.on = function (f) { handlers.add(f); return accessor; };
-  accessor.off = function (f) { handlers.delete(f); return accessor; };
-  return accessor;
+  return Object.assign(f = (...args) => makeNext()(...args), {
+    on(h) { handlers = [...handlers, h]; return f; },
+    off(h) { handlers = handlers.filter(x => x !== h); return f; },
+  });
 }
 
 export function rVal(v) {
-  return wrapTrigger((trigger) => function accessor(...args) {
-    if (args.length > 0) trigger(v = (args.length === 1) ? args[0] : args);
+  return chain().on((next, ...args) => {
+    if (args.length > 0) next(v = (args.length === 1) ? args[0] : args);
     return v;
   });
 }
+
 export function rRef(obj, name) {
-  return wrapTrigger((trigger) => function accessor(...args) {
-    if (args.length > 0) {
-      trigger(obj[name] = (args.length === 1) ? args[0] : args);
-    }
+  return chain().on((next, ...args) => {
+    if (args.length > 0) next(obj[name] = (args.length === 1) ? args[0] : args);
     return obj[name];
   });
 }
@@ -197,8 +189,9 @@ export function attach(el) {
     content.forEach(element => append(element, view, ctx));
     vEl = patch(vEl ?? el, view);
   });
-  let Val = (v) => rVal(v).on(refresh);
-  let Ref = (obj, name) => rRef(obj, name).on(refresh);
+  const refreshHandler = (next, v) => { next(); refresh(); return v; };
+  let Val = (v) => rVal(v).on(refreshHandler);
+  let Ref = (obj, name) => rRef(obj, name).on(refreshHandler);
   return Object.assign((...args) => { // setter only
     content = args;
     return refresh();

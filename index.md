@@ -12,3 +12,6 @@ modules and updates the page or a component based on the current route.
 [flex.css](doc/flex.html): a stylesheet for nested flexible blocks. Great for
 building forms and programmatic UIs.
 
+[state](doc/state.md): building block for persistent state services. Fast
+solution for durability of complex data structures.
+
